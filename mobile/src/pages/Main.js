@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import MapView from 'react-native-maps';
-import { StyleSheet } from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { StyleSheet, Image, View, Text } from 'react-native';
 import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
 
-function Main () {
+function Main ({ navigation }) {
     const [currentRegion, setCurrentRegion] = useState(null);
 
     useEffect(() => {
@@ -33,12 +33,48 @@ function Main () {
         return null;
     }
 
-    return <MapView initialRegion={currentRegion} style={styles.map}/>
+    return (
+        <MapView initialRegion={currentRegion} style={styles.map}>
+            <Marker coordinate={{latitude: -12.9940283, longitude: -38.4432087}}>
+                <Image style={styles.avatar} source={{ uri: 'https://avatars1.githubusercontent.com/u/3848516'}} />
+                <Callout onPress={() => {
+                    navigation.navigate('Profile', { github_username: 'massilva' })
+                }}>
+                    <View style={styles.callout}>
+                        <Text style={styles.devName}>Marcos Silva</Text>
+                        <Text style={styles.devBio}>CTO</Text>
+                        <Text style={styles.devTechs}>Python, Javascript</Text>
+                    </View>
+                </Callout>
+            </Marker>
+        </MapView>
+    );
 }
 
 const styles = StyleSheet.create({
     map: {
         flex: 1
+    },
+    avatar: {
+        width: 54,
+        height: 54,
+        borderRadius: 4,
+        borderWidth: 4,
+        borderColor: '#FFF'
+    },
+    callout: {
+        width: 260,
+    },
+    devName: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    devBio: {
+        color: '#666',
+        marginTop: 5,
+    },
+    devTechs: {
+        marginTop: 5,
     }
 });
 
