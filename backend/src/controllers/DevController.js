@@ -49,7 +49,7 @@ module.exports = {
         if (dev) {
             const { techs, latitude, longitude } = request.body;
             await Dev.update({ github: github }, {
-                techs: techs, 
+                techs: utils.parseStringToArray(techs), 
                 location: utils.makePoint(longitude, latitude)
             });
         }
